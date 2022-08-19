@@ -1,11 +1,9 @@
 
 function! s:change_dir(stat) abort
-  let l:old_path = ''
   if a:stat == 'init'
-    let l:old_path = expand('%:p:h')
     let cmd = printf('lcd %s',expand('%:p:h'))
   elseif a:stat == 'end'
-    let cmd = printf('lcd %s', l:old_path)
+    let cmd = 'lcd-'
   endif
   silent! execute(cmd)
 endfunction
