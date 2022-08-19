@@ -24,7 +24,7 @@ endfunction
 
 function! s:cv_ssh_2_http()
   "2nd arg of substitute must be single quotation
-  return printf('https://github.com/%s',substitute(s:url,'\(git@github.com:\|.git\)',"","g"))
+  return printf('https://github.com/%s',substitute(s:url,'\(git@github.com:\|\.git$\)',"","g"))
 endfunction
 
 
