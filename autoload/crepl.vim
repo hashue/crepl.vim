@@ -45,6 +45,10 @@ function! s:append_line_num() abort
   let s:url = printf('%s#L%s',s:url,line('.'))
 endfunction
 
+function! s:append_multi_line_num(from,to) abort
+  let s:url = printf('%s#L%s-L%s',s:url,a:from,a:to)
+endfunction
+
 
 function! crepl#make_permalink() abort
   call s:change_dir('init')
@@ -52,6 +56,16 @@ function! crepl#make_permalink() abort
   call s:make_http_link()
   call s:append_file_path()
   call s:append_line_num()
+  call s:change_dir('end')
+  echomsg s:url
+endfunction
+
+function! crepl#make_multiline_permalink() range abort
+  call s:change_dir('init')
+  call s:fetch_git_info()
+  call s:make_http_link()
+  call s:append_file_path()
+  call s:append_multi_line_num(a:firstline,a:lastline)
   call s:change_dir('end')
   echomsg s:url
 endfunction
