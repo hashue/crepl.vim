@@ -49,23 +49,22 @@ function! s:append_multi_line_num(from,to) abort
   let s:url = printf('%s#L%s-L%s',s:url,a:from,a:to)
 endfunction
 
-
-function! crepl#make_permalink() abort
+function! crepl#make_permalink(from,to) range abort
   call s:change_dir('init')
   call s:fetch_git_info()
   call s:make_http_link()
   call s:append_file_path()
-  call s:append_line_num()
+
+  if a:from == a:to
+    call s:append_line_num()
+  else
+    call s:append_multi_line_num(a:from,a:to)
+  endif
+
   call s:change_dir('end')
-  echomsg s:url
+  return s:url
 endfunction
 
-function! crepl#make_multiline_permalink() range abort
-  call s:change_dir('init')
-  call s:fetch_git_info()
-  call s:make_http_link()
-  call s:append_file_path()
-  call s:append_multi_line_num(a:firstline,a:lastline)
-  call s:change_dir('end')
-  echomsg s:url
+function! crepl#display_link() range abort
+  echomsg '[crepl] ' . crepl#make_permalink(a:firstline,a:lastline)
 endfunction
