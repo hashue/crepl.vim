@@ -50,6 +50,15 @@ function! s:append_multi_line_num(from,to) abort
 endfunction
 
 function! crepl#make_permalink(from,to) range abort
+
+  let changed_file = system("git diff --name-only")[:-2]
+  let current_path = @%
+
+  if(stridx(changed_file,current_path) != -1)
+    echoerr("Please push to remote before using this plugin !!!")
+    return
+  endif
+
   call s:change_dir('init')
   call s:fetch_git_info()
   call s:make_http_link()
